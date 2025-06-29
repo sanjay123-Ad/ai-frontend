@@ -1,0 +1,976 @@
+.App {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+.App.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.App.dark {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 12px;
+  background: #ccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.theme-toggle:hover {
+  background-color: #bbb;
+}
+
+/* Input box */
+input {
+  width: 70%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button */
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin-left: 10px;
+  background-color: #4b7bec;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Response and history box */
+.response-box,
+.history-box {
+  margin-top: 30px;
+  text-align: left;
+  background: var(--box-bg, #f9f9f9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* Response paragraph style */
+.response-box p,
+.history-item span {
+  line-height: 1.8;
+  font-size: 16px;
+  color: inherit;
+  background: var(--para-bg, #fdfdfd);
+  padding: 14px 18px;
+  border-radius: 8px;
+  white-space: pre-line;
+  margin-bottom: 16px;
+}
+
+
+/* Typing animation */
+.typing {
+  border-right: 2px solid;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { border-color: transparent; }
+  50% { border-color: #4b7bec; }
+}
+
+/* Regenerate button */
+.regenerate-btn {
+  margin-top: 10px;
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.regenerate-btn:hover {
+  background-color: #e68a00;
+}
+
+/* Improved bullet & text formatting */
+.response-box ul,
+.history-item ul {
+  padding-left: 20px;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.response-box li,
+.history-item li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+
+/* Clean separation between history items */
+.history-item {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+/* Headings */
+.response-box h2,
+.history-box h2 {
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+}
+
+
+/* Formatting styles */
+.response-box strong,
+.history-item strong {
+  font-weight: bold;
+  color: inherit;
+}
+
+.response-box em,
+.history-item em {
+  font-style: italic;
+  color: inherit;
+}
+
+/* Optional: enhance toggle style */
+.toggle-button {
+  margin-top: 10px;
+  background-color: #eee;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.toggle-button:hover {
+  background-color: #ddd;
+}
+
+.formatted-answer {
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: inherit;
+  white-space: pre-line;
+}
+
+.formatted-answer ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.formatted-answer li {
+  margin-bottom: 6px;
+}
+
+.formatted-answer strong {
+  font-weight: bold;
+  color: inherit;
+}
+
+.formatted-answer em {
+  font-style: italic;
+  color: inherit;
+}
+
+/* Dark Theme Fix for Inputs & Boxes */
+.App.dark input,
+.App.dark textarea {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+  border: 1px solid #555;
+}
+
+.App.dark .response-box,
+.App.dark .history-box,
+.App.dark .response-box p,
+.App.dark .formatted-answer,
+.App.dark .history-item span {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+}
+
+.App.dark .theme-toggle {
+  background-color: #555;
+  color: white;
+}
+
+.App.dark .theme-toggle:hover {
+  background-color: #666;
+}
+/* Spinner container */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.response-box,
+.history-box {
+  line-height: 1.8;
+  word-spacing: 0.05rem;
+  letter-spacing: 0.2px;
+}
+
+.spinner.analyzing {
+  border-top-color: #ffa500; /* Orange for "Analyzing..." */
+}
+
+body.light {
+  background-color: #ffffff;
+  color: #000;
+}
+
+body.dark {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+.small-spinner {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.settings-icon {
+  font-size: 1.2rem;
+  padding: 6px 12px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+.settings-panel {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  margin-top: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  max-width: 300px;
+}
+
+.setting-item {
+  margin-bottom: 1.2rem; /* ⬅️ adds vertical space between theme/model rows */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  cursor: pointer;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.settings-icon {
+  font-size: 1.5rem;
+  padding: 8px;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.settings-icon:hover {
+  transform: rotate(30deg);
+}
+
+.floating-settings-panel {
+  position: absolute;
+  top: 80px; /* ⬅️ Increased spacing */
+  right: 20px;
+  background: var(--bg-color, #f1f1f1);
+  border: 1px solid var(--border-color, #ccc);
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.15);
+  max-width: 280px;
+  z-index: 1000;
+}
+
+
+
+/* Optional: Animate closing */
+.floating-settings-panel.closing {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+
+/* Close animation */
+.floating-settings-panel.closing {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Dark mode style */
+.App.dark .floating-settings-panel {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+  border-color: #555;
+}
+
+/* Settings rows */
+.floating-settings-panel .setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.floating-settings-panel .setting-item label {
+  font-size: 0.95rem;
+  margin-right: 10px;
+}
+
+/* Inputs/buttons inside */
+.floating-settings-panel select,
+.floating-settings-panel button {
+  font-size: 0.9rem;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f3f3f3;
+  color: #000;
+  cursor: pointer;
+}
+
+.App.dark .floating-settings-panel select,
+.App.dark .floating-settings-panel button {
+  background-color: #444;
+  color: #f1f1f1;
+  border-color: #666;
+}
+
+/* Floating button */
+.floating-settings-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+
+.floating-settings-btn:hover {
+  transform: rotate(30deg);
+}
+
+.floating-settings-btn {
+  z-index: 1100;
+}
+.floating-settings-btn.rotated {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+}
+
+
+
+textarea {
+  width: 70%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 40px;
+  max-height: 160px;
+  transition: border 0.2s ease;
+  font-family: inherit;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #4b7bec;
+  box-shadow: 0 0 5px rgba(75, 123, 236, 0.5);
+}
+
+.App.dark textarea {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+  border: 1px solid #555;
+}
+
+.new-chat-btn {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.new-chat-btn:hover {
+  background-color: #27ae60;
+}
+
+.chat-sidebar {
+  position: fixed;
+  left: 20px;
+  top: 80px;
+  width: 200px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.chat-sidebar button {
+  width: 100%;
+  margin-top: 6px;
+  background: #eaeaea;
+  border: none;
+  padding: 6px 10px;
+  text-align: left;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.chat-sidebar button:hover {
+  background: #dcdcdc;
+}
+
+.App.dark .chat-sidebar {
+  background: #2c2c2c;
+  color: #f1f1f1;
+}
+
+.App.dark .chat-sidebar button {
+  background: #3a3a3a;
+  color: #f1f1f1;
+}
+
+.chat-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding-right: 10px;
+}
+
+.menu-btn {
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 8px;
+}
+
+.popup-menu {
+  position: absolute;
+  right: 30px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+}
+
+.popup-item {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.popup-item:hover {
+  background: #f0f0f0;
+}
+
+.rename-popup {
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 2000;
+}
+
+.rename-popup input {
+  width: 120px;
+  padding: 4px;
+}
+
+.rename-popup button {
+  padding: 4px 6px;
+  font-size: 0.85rem;
+}
+
+.chat-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.menu-btn {
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 8px;
+}
+
+.popup-menu {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.popup-item:hover {
+  background: #f2f2f2;
+}
+
+.rename-input {
+  font-size: 0.9rem;
+  padding: 4px 6px;
+  border: 1px solid #4b7bec;
+  border-radius: 4px;
+  width: 140px;
+}
+/* Same popup menu style, adjusted for dark theme */
+.App.dark .popup-menu {
+  background-color: #2c2c2c;
+  border-color: #555;
+}
+
+.App.dark .popup-item {
+  color: #f1f1f1;
+}
+
+.App.dark .popup-item:hover {
+  background: #444;
+}
+
+.App.dark .rename-input {
+  background-color: #3a3a3a;
+  color: #f1f1f1;
+  border: 1px solid #4b7bec;
+}
+/* Popup menu styling */
+.popup-menu {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+.popup-item {
+  color: #000000;
+}
+
+.popup-item:hover {
+  background-color: #f2f2f2;
+}
+
+/* Inline rename input */
+.rename-input {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #4b7bec;
+}
+
+/* Dark mode overrides */
+.App.dark .popup-menu {
+  background-color: #2c2c2c;
+  border-color: #555;
+}
+
+.App.dark .popup-item {
+  color: #f1f1f1;
+}
+
+.App.dark .popup-item:hover {
+  background-color: #444;
+}
+
+.App.dark .rename-input {
+  background-color: #3a3a3a;
+  color: #f1f1f1;
+  border: 1px solid #4b7bec;
+}
+
+/* Sidebar text color (like "Untitled Chat") */
+.chat-sidebar button {
+  color: inherit;
+}
+
+.App.dark .chat-sidebar {
+  background-color: #2a2a2a;
+}
+
+.App.dark .chat-sidebar button {
+  background-color: #3a3a3a;
+  color: #f1f1f1;
+}
+
+/* Menu button color */
+.App.dark .menu-btn {
+  color: #f1f1f1;
+}
+.center-heading {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Default Light Theme Scrollbar */
+body::-webkit-scrollbar,
+.chat-sidebar::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track,
+.chat-sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+body::-webkit-scrollbar-thumb,
+.chat-sidebar::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 6px;
+}
+
+/* Dark Theme Scrollbar */
+body.dark::-webkit-scrollbar,
+.chat-sidebar.dark::-webkit-scrollbar {
+  width: 10px;
+}
+
+body.dark::-webkit-scrollbar-track,
+.chat-sidebar.dark::-webkit-scrollbar-track {
+  background: #2c2c2c;
+}
+
+body.dark::-webkit-scrollbar-thumb,
+.chat-sidebar.dark::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.history-box {
+  margin-left: 40px; /* Adjust this value to shift right as you wish */
+}
+.App.dark .history-box {
+  color: #eee;
+}
+.response-box {
+  margin-left: 40px; /* same shift as history-box */
+}
+.App.dark .response-box {
+  color: #eee;
+}
+.image-gallery {
+  padding: 20px;
+  background: #1f1f1f;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.images-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.image-card {
+  text-align: center;
+  width: 200px;
+}
+
+.image-card img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover; /* ✅ Makes sure the image is cropped & fills the box */
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.image-btn {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  margin-left: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.image-btn:hover {
+  background-color: #666;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.loading-spinner {
+  font-size: 18px;
+  padding: 20px;
+  color: #4caf50;
+  animation: pulse 1s infinite;
+  text-align: center;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.image-card img:hover {
+  transform: scale(1.05);
+  transition: 0.3s ease;
+}
+
+.image-card {
+  width: 200px;
+  height: 150px;
+  overflow: hidden; /* Ensures image stays within the box */
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.image-card:hover img {
+  transform: scale(1.2); /* Zoom in on hover */
+}
+
+/* Dark mode */
+.App.dark .image-gallery {
+  background: #1f1f1f;
+  color: #fff;
+}
+
+/* Light mode */
+.App.light .image-gallery {
+  background: #f9f9f9;
+  color: #000;
+}
+
+.image-gallery {
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.image-gallery {
+  padding: 20px;
+}
+
+.images-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.image-card {
+  text-align: center;
+  width: 150px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 10px;
+  background: #f9f9f9;
+  transition: transform 0.3s ease;
+}
+
+.image-card:hover {
+  transform: scale(1.05);
+}
+
+.image-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.image-card p {
+  margin-top: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+/* Wrapper to keep image and name together */
+.image-wrapper {
+  text-align: center;
+  margin: 10px;
+}
+
+/* The image card only contains the image now */
+.image-card {
+  width: 150px;
+  height: auto;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--image-border);
+  background: var(--image-bg);
+  transition: transform 0.3s ease;
+}
+
+.image-card:hover {
+  transform: scale(1.05);
+}
+
+.image-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Name outside the card */
+.image-name {
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+/* Support both themes */
+body.light {
+  --image-bg: #fff;
+  --image-border: #ddd;
+  --text-color: #222;
+}
+
+body.dark {
+  --image-bg: #1e1e1e;
+  --image-border: #444;
+  --text-color: #eee;
+}
+.user-info {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  
+}
+
+.user-info p {
+  margin: 0;
+  
+}
+.header-with-auth {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  
+}
+.settings-container{
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  z-index: 1000;
+
+}
