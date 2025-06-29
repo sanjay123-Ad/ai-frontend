@@ -9,7 +9,7 @@ import {
 } from "@clerk/clerk-react";
 
 
-const API_URL = "http://localhost:5000";
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 const MODELS = [
   { name: "llama3-8b-8192", provider: "groq" },
   { name: "llama3-70b-8192", provider: "groq" },
