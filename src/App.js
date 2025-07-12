@@ -332,10 +332,14 @@ export default function App() {
       <SignedIn>
         {/* 🔐 Full App Only for Signed In Users */}
         <button className="new-chat-btn" onClick={startNewSession}>
-          ➕ New Chat
+          <span className="icon">➕</span>
+          <span className="text">New Chat</span>
         </button>
-        <button onClick={callProtectedBackend}>🔐 Test Backend Auth</button>
 
+        <button className="test-auth-btn" onClick={callProtectedBackend}>
+          <span className="auth-icon">🔐</span>
+          <span className="auth-text">Test Backend Auth</span>
+        </button>
 
         <div className="settings-container">
           <button
@@ -463,7 +467,11 @@ export default function App() {
                 }
               }}
             />
-            <button type="submit" disabled={loading || typing}>
+            <button
+              type="submit"
+              className="ask-button"
+              disabled={loading || typing}
+            >
               {loading ? (
                 <>
                   <span className="spinner"></span> Processing...
